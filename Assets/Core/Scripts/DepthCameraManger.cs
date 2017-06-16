@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Intel.RealSense;
+using Intel.RealSense.Hand;
 
 public class DepthCameraManger : MonoBehaviour {
 
@@ -54,12 +55,12 @@ public class DepthCameraManger : MonoBehaviour {
         else
         {
             Debug.Log(TAG + "Capture Manager Initialize Successful");
-            CaptureDevice();
+            LoadCapture();
         }
     }
 
-    // Capture Depth Camera Device
-    void CaptureDevice()
+    // Load Capture from Group Sensor Info
+    void LoadCapture()
     {
         ImplDesc desc = new ImplDesc()
         {
@@ -77,25 +78,38 @@ public class DepthCameraManger : MonoBehaviour {
                 Debug.Log(TAG + "No Camera Connected!");
             else
             {
-                deviceInfo = capture.DeviceInfo[0];
-                if (deviceInfo == null)
-                    Debug.Log(TAG + "Fail to obtain camera!");
-                else
-                {
-                    if (captureManager.SetFileName(deviceInfo.name, true) < Status.STATUS_NO_ERROR)
-                        Debug.Log(TAG + "Fail to connect to " + deviceInfo.name);
-                    else
-                    {
-                        Debug.Log(TAG + "Connect to " + deviceInfo.name);
-                        SetupHandModule();
-                    }
-                }
+                CaptureDevice(capture);
+            }
+        }
+    }
+
+    //Capture Device
+    void CaptureDevice(Capture capture)
+    {
+        deviceInfo = capture.DeviceInfo[0];
+        if (deviceInfo == null)
+            Debug.Log(TAG + "Fail to obtain camera!");
+        else
+        {
+            if (captureManager.SetFileName(deviceInfo.name, true) < Status.STATUS_NO_ERROR)
+                Debug.Log(TAG + "Fail to connect to " + deviceInfo.name);
+            else
+            {
+                Debug.Log(TAG + "Connect to " + deviceInfo.name);
+                SetupHandModule();
             }
         }
     }
 
     void SetupHandModule()
     {
-
+        HandModule handModule = HandModule.Activate(senseManager);
+        if (handModule == null)
+            Debug.Log(TAG + "Failed Loading Hand Module");
+        else
+        {
+            Debug.Log(TAG + "Hand Module is loaded successful");
+           // HandConfiguration handConfiguration = 
+        }
     }
 }
