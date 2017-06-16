@@ -14,20 +14,16 @@ public class HandManager : MonoBehaviour {
     // Tag for Log
     string TAG = "Hand Manager : ";
     
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Call when Depth Camera Manager Initialize Successs
+    void OnDepthCameraManagerInitializeSuccess()
+    {
+        SetupHandModule();
+    }
 
     // Activate Hand Module
-    public void SetupHandModule(SenseManager senseManager)
+    void SetupHandModule()
     {
-        handModule = HandModule.Activate(senseManager);
+        handModule = HandModule.Activate(GetComponent<DepthCameraManger>().senseManager);
         if (handModule == null)
             Debug.Log(TAG + "Failed Loading Hand Module");
         else

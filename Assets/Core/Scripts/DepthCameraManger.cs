@@ -19,18 +19,7 @@ public class DepthCameraManger : MonoBehaviour {
     void Awake()
     {
         InititalizeSenseManager();
-
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     // Initialize Sense Manager
     void InititalizeSenseManager()
@@ -95,9 +84,27 @@ public class DepthCameraManger : MonoBehaviour {
             else
             {
                 Debug.Log(TAG + "Connect to " + deviceInfo.name);
-                GetComponent<HandManager>().SetupHandModule(senseManager);
+                StartDevice();
             }
         }
     }
 
+    // Start Device
+    void StartDevice()
+    {
+        SendMessage("OnDepthCameraManagerInitializeSuccess");
+        if (senseManager.Init() == Status.STATUS_NO_ERROR)
+        {
+            Debug.Log(TAG + "Initialization Successful!");
+            SendMessage("OnDepthCameraManagerInitializeSuccess");
+        }
+        else
+            Debug.Log(TAG + "Initialization Failed!");
+    }
+
+    // Call when exit application
+    void OnApplicationQuit()
+    {
+        senseManager.Close();
+    }
 }
