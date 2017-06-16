@@ -14,8 +14,7 @@ public class HandManager : MonoBehaviour {
     // Tag for Log
     string TAG = "Hand Manager : ";
     
-    // Call when Depth Camera Manager Initialize Successs
-    void OnDepthCameraManagerInitializeSuccess()
+    public void InitializeHandManger()
     {
         SetupHandModule();
     }
@@ -46,6 +45,7 @@ public class HandManager : MonoBehaviour {
         }
     }
 
+    // Setup Output variable
     void CreateHandData()
     {
         handData = handModule.CreateOutput();
@@ -54,7 +54,19 @@ public class HandManager : MonoBehaviour {
         else
         {
             Debug.Log(TAG + "Successful to create output");
-
+            SetupTrackingMode();
         }
+    }
+
+    // Setup Tracking Mode
+    void SetupTrackingMode()
+    {
+        TrackingModeType trackingMode = TrackingModeType.TRACKING_MODE_FULL_HAND;
+        handConfiguration.TrackingMode = trackingMode;
+        handConfiguration.EnableAllAlerts();
+        handConfiguration.SegmentationImageEnabled = true;
+        handConfiguration.ApplyChanges();
+        Debug.Log(TAG+"Setup Hand Configuration Property");
+        GetComponent<DepthCameraManger>().StartDevice();
     }
 }

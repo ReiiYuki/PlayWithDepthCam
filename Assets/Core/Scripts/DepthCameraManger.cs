@@ -84,19 +84,17 @@ public class DepthCameraManger : MonoBehaviour {
             else
             {
                 Debug.Log(TAG + "Connect to " + deviceInfo.name);
-                StartDevice();
+                GetComponent<HandManager>().InitializeHandManger();
             }
         }
     }
 
     // Start Device
-    void StartDevice()
+    public void StartDevice()
     {
-        SendMessage("OnDepthCameraManagerInitializeSuccess");
         if (senseManager.Init() == Status.STATUS_NO_ERROR)
         {
             Debug.Log(TAG + "Initialization Successful!");
-            SendMessage("OnDepthCameraManagerInitializeSuccess");
         }
         else
             Debug.Log(TAG + "Initialization Failed!");
