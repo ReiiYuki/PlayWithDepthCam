@@ -9,8 +9,9 @@ public class HandManager : MonoBehaviour {
     // Hand Manger Component
     HandModule handModule;
     HandConfiguration handConfiguration;
-    HandData handData;
-    
+    public HandData handData;
+    public bool isStart;
+
     // Tag for Log
     string TAG = "Hand Manager : ";
     
@@ -68,5 +69,6 @@ public class HandManager : MonoBehaviour {
         handConfiguration.ApplyChanges();
         Debug.Log(TAG+"Setup Hand Configuration Property");
         GetComponent<DepthCameraManger>().StartDevice();
+        isStart = true;
     }
 }
