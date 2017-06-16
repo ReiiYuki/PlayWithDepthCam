@@ -12,6 +12,7 @@ public class DepthCameraManger : MonoBehaviour {
     SenseManager senseManager;
     CaptureManager captureManager;
     DeviceInfo deviceInfo;
+    HandConfiguration handConfiguration;
 
     // Tag for Log
     string TAG = "Depth Camera : ";
@@ -83,7 +84,7 @@ public class DepthCameraManger : MonoBehaviour {
         }
     }
 
-    //Capture Device
+    // Capture Device
     void CaptureDevice(Capture capture)
     {
         deviceInfo = capture.DeviceInfo[0];
@@ -101,6 +102,7 @@ public class DepthCameraManger : MonoBehaviour {
         }
     }
 
+    // Activate Hand Module
     void SetupHandModule()
     {
         HandModule handModule = HandModule.Activate(senseManager);
@@ -109,7 +111,14 @@ public class DepthCameraManger : MonoBehaviour {
         else
         {
             Debug.Log(TAG + "Hand Module is loaded successful");
-           // HandConfiguration handConfiguration = 
+            SetupHandConfiguration(handModule);
         }
+    }
+
+    // Setup Hand Configuration
+    void SetupHandConfiguration(HandModule handModule)
+    {
+        handConfiguration = handModule.CreateActiveConfiguration();
+        
     }
 }
