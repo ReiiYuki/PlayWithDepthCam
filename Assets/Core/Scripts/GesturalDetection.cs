@@ -5,11 +5,19 @@ using Intel.RealSense;
 
 public class GesturalDetection : MonoBehaviour {
 
-    SenseManager manager;
-    string TAG = "Deptth Camera : ";
+    /**
+     * Depth Camera Manager
+     **/
+    SenseManager senseManager;
+    CaptureManager captureManager;
+
+    // Tag for Log
+    string TAG = "Depth Camera : ";
+
+    //Call this before start
     void Awake()
     {
-        InitSensor();
+        InititalizeSenseManager();
 
     }
 
@@ -23,12 +31,31 @@ public class GesturalDetection : MonoBehaviour {
 		
 	}
 
-    void InitSensor()
+    // Initialize Sense Manager
+    void InititalizeSenseManager()
     {
-        manager = Session.CreateInstance().CreateSenseManager();
-        if (manager == null)
-            Debug.Log(TAG+ "Sense Manager Connection Failure!");
+        senseManager = Session.CreateInstance().CreateSenseManager();
+        if (senseManager == null)
+            Debug.Log(TAG+ "Sense Manager Initialize Failure!");
         else
-            Debug.Log(TAG+ "Sense ManagerConnection Successful");
+        {
+            Debug.Log(TAG + "Sense Manager Initialize Successful");
+            InitializeCaptureManager();
+        }
     }
+
+    // Initialize Capture Manager
+    void InitializeCaptureManager()
+    {
+        captureManager = senseManager.CaptureManager;
+        if (captureManager == null)
+            Debug.Log(TAG + "Capture Manager Initialize Failure!");
+        else
+        {
+            Debug.Log(TAG + "Capture Manager Initialize Successful");
+
+        }
+    }
+
+
 }
