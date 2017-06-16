@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Intel.RealSense;
-using Intel.RealSense.Hand;
 
 public class DepthCameraManger : MonoBehaviour {
 
     /**
      * Depth Camera Component
      **/
-    SenseManager senseManager;
+    public SenseManager senseManager;
     CaptureManager captureManager;
     DeviceInfo deviceInfo;
-    HandConfiguration handConfiguration;
 
     // Tag for Log
     string TAG = "Depth Camera : ";
@@ -97,28 +95,9 @@ public class DepthCameraManger : MonoBehaviour {
             else
             {
                 Debug.Log(TAG + "Connect to " + deviceInfo.name);
-                SetupHandModule();
+                GetComponent<HandManager>().SetupHandModule(senseManager);
             }
         }
     }
 
-    // Activate Hand Module
-    void SetupHandModule()
-    {
-        HandModule handModule = HandModule.Activate(senseManager);
-        if (handModule == null)
-            Debug.Log(TAG + "Failed Loading Hand Module");
-        else
-        {
-            Debug.Log(TAG + "Hand Module is loaded successful");
-            SetupHandConfiguration(handModule);
-        }
-    }
-
-    // Setup Hand Configuration
-    void SetupHandConfiguration(HandModule handModule)
-    {
-        handConfiguration = handModule.CreateActiveConfiguration();
-        
-    }
 }
