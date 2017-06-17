@@ -14,7 +14,17 @@ public class HandManager : MonoBehaviour {
 
     // Tag for Log
     string TAG = "Hand Manager : ";
-    
+
+    //Call every frame
+    void Update()
+    {
+        if (isStart && GetComponent<DepthCameraManger>().senseManager.AcquireFrame(true).IsSuccessful())
+        {
+            handData.Update();
+            GetComponent<DepthCameraManger>().senseManager.ReleaseFrame();
+        }
+    }
+
     public void InitializeHandManger()
     {
         SetupHandModule();
@@ -66,9 +76,11 @@ public class HandManager : MonoBehaviour {
         handConfiguration.TrackingMode = trackingMode;
         handConfiguration.EnableAllAlerts();
         handConfiguration.SegmentationImageEnabled = true;
+        handConfiguration.EnableAllGestures(true);
         handConfiguration.ApplyChanges();
         Debug.Log(TAG+"Setup Hand Configuration Property");
         GetComponent<DepthCameraManger>().StartDevice();
+        
         isStart = true;
     }
 }
