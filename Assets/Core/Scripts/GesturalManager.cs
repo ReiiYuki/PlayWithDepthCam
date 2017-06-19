@@ -44,26 +44,35 @@ public class GesturalManager : MonoBehaviour {
                         IHand hand;
                         if (GetComponent<HandManager>().handData.QueryHandDataById(gesture.handId,out hand) == Status.STATUS_NO_ERROR)
                         {
+                            string camelCaseGestureName = CreateCamelCase(gesture.name);
                             if (hand.BodySide == BodySideType.BODY_SIDE_LEFT)
-                                this.SendMessage("OnLeftHand" + gesture.name, SendMessageOptions.DontRequireReceiver);
+                                this.SendMessage("OnLeftHand" + camelCaseGestureName, SendMessageOptions.DontRequireReceiver);
                             else if (hand.BodySide == BodySideType.BODY_SIDE_RIGHT)
-                                this.SendMessage("OnRightHand" + gesture.name, SendMessageOptions.DontRequireReceiver);
-                            this.SendMessage("On" + gesture.name, SendMessageOptions.DontRequireReceiver);
+                                this.SendMessage("OnRightHand" + camelCaseGestureName, SendMessageOptions.DontRequireReceiver);
+                            this.SendMessage("On" + camelCaseGestureName, SendMessageOptions.DontRequireReceiver);
                         }
                     }
     }
 
-    void Onspreadfingers()
+    string CreateCamelCase(string normalString)
+    {
+        string[] arrStr = normalString.Split('_');
+        for (int i = 0;i<arrStr.Length;i++)
+            arrStr[i] = (arrStr[i][0] + "").ToUpper() + arrStr[i].Substring(1);
+        return string.Join("", arrStr);
+    }
+    //ExampleMethod
+    void OnSpreadfingers()
     {
         Debug.Log("Yes");
     }
 
-    void OnLeftHandspreadfingers()
+    void OnLeftHandSpreadfingers()
     {
         Debug.Log("LYes");
     }
 
-    void OnRightHandspreadfingers()
+    void OnRightHandSpreadfingers()
     {
         Debug.Log("RYes");
     }
