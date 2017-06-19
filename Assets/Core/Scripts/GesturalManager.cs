@@ -12,11 +12,6 @@ public class GesturalManager : MonoBehaviour {
 
     string TAG = "Gestural Manager : ";
 
-	// Use this for initialization
-	void Start () {
-        
-	}
-	
 	// Update is called once per frame
 	void Update () {
         UpdateHandGesture();
