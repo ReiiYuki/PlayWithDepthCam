@@ -45,11 +45,13 @@ public class GesturalManager : MonoBehaviour {
                             {
                                 this.SendMessage("OnLeftHand" + camelCaseGestureName, SendMessageOptions.DontRequireReceiver);
                                 L.GetComponent<TextMesh>().text = "L : " + camelCaseGestureName;
+                                this.SendMessage("OnGesture", gesture, SendMessageOptions.DontRequireReceiver);
                             }
                             else if (hand.BodySide == BodySideType.BODY_SIDE_RIGHT)
                             {
                                 this.SendMessage("OnRightHand" + camelCaseGestureName, SendMessageOptions.DontRequireReceiver);
                                 R.GetComponent<TextMesh>().text = "R : " + camelCaseGestureName;
+                                this.SendMessage("OnGesture", gesture, SendMessageOptions.DontRequireReceiver);
                             }
                             this.SendMessage("On" + camelCaseGestureName, SendMessageOptions.DontRequireReceiver);
                         }
