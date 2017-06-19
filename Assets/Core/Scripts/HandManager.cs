@@ -8,9 +8,9 @@ public class HandManager : MonoBehaviour {
 
     // Hand Manger Component
     HandModule handModule;
-    HandConfiguration handConfiguration;
+    public HandConfiguration handConfiguration;
+    DepthCameraManger depthCameraManager;
     public HandData handData;
-    public bool isStart;
 
     // Tag for Log
     string TAG = "Hand Manager : ";
@@ -18,10 +18,10 @@ public class HandManager : MonoBehaviour {
     //Call every frame
     void Update()
     {
-        if (isStart && GetComponent<DepthCameraManger>().senseManager.AcquireFrame(true).IsSuccessful())
+        if (depthCameraManager.isStart && depthCameraManager.senseManager.AcquireFrame(true).IsSuccessful())
         {
             handData.Update();
-            GetComponent<DepthCameraManger>().senseManager.ReleaseFrame();
+            depthCameraManager.senseManager.ReleaseFrame();
         }
     }
 
@@ -33,7 +33,8 @@ public class HandManager : MonoBehaviour {
     // Activate Hand Module
     void SetupHandModule()
     {
-        handModule = HandModule.Activate(GetComponent<DepthCameraManger>().senseManager);
+        depthCameraManager = GetComponent<DepthCameraManger>();
+        handModule = HandModule.Activate(depthCameraManager.senseManager);
         if (handModule == null)
             Debug.Log(TAG + "Failed Loading Hand Module");
         else
@@ -74,13 +75,7 @@ public class HandManager : MonoBehaviour {
     {
         TrackingModeType trackingMode = TrackingModeType.TRACKING_MODE_FULL_HAND;
         handConfiguration.TrackingMode = trackingMode;
-        handConfiguration.EnableAllAlerts();
-        handConfiguration.SegmentationImageEnabled = true;
-        handConfiguration.EnableAllGestures(true);
-        handConfiguration.ApplyChanges();
-        Debug.Log(TAG+"Setup Hand Configuration Property");
-        GetComponent<DepthCameraManger>().StartDevice();
-        
-        isStart = true;
-    }
+        Debug.Log(TAG + "Setup Hand Configuration Property");
+        GetComponent<GesturalManager>().EnableGestures() ;
+     }
 }

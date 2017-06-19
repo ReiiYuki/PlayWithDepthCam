@@ -11,6 +11,7 @@ public class DepthCameraManger : MonoBehaviour {
     public SenseManager senseManager;
     CaptureManager captureManager;
     DeviceInfo deviceInfo;
+    public bool isStart;
 
     // Tag for Log
     string TAG = "Depth Camera : ";
@@ -95,6 +96,7 @@ public class DepthCameraManger : MonoBehaviour {
         if (senseManager.Init() == Status.STATUS_NO_ERROR)
         {
             Debug.Log(TAG + "Initialization Successful!");
+            isStart = true;
         }
         else
             Debug.Log(TAG + "Initialization Failed!");
