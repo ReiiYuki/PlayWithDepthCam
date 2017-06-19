@@ -7,6 +7,7 @@ using Intel.RealSense.Hand;
 public class GesturalManager : MonoBehaviour {
 
     public string[] gestureActions;
+    public GameObject L, R;
 
     HandManager handManager;
 
@@ -41,9 +42,15 @@ public class GesturalManager : MonoBehaviour {
                         {
                             string camelCaseGestureName = CreateCamelCase(gesture.name);
                             if (hand.BodySide == BodySideType.BODY_SIDE_LEFT)
+                            {
                                 this.SendMessage("OnLeftHand" + camelCaseGestureName, SendMessageOptions.DontRequireReceiver);
+                                L.GetComponent<TextMesh>().text = "L : " + camelCaseGestureName;
+                            }
                             else if (hand.BodySide == BodySideType.BODY_SIDE_RIGHT)
+                            {
                                 this.SendMessage("OnRightHand" + camelCaseGestureName, SendMessageOptions.DontRequireReceiver);
+                                R.GetComponent<TextMesh>().text = "R : " + camelCaseGestureName;
+                            }
                             this.SendMessage("On" + camelCaseGestureName, SendMessageOptions.DontRequireReceiver);
                         }
                     }
@@ -56,6 +63,7 @@ public class GesturalManager : MonoBehaviour {
             arrStr[i] = (arrStr[i][0] + "").ToUpper() + arrStr[i].Substring(1);
         return string.Join("", arrStr);
     }
+
     //ExampleMethod
     void OnSpreadfingers()
     {
